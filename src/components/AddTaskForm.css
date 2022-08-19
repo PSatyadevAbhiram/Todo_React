@@ -1,0 +1,34 @@
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+    height: 50px;
+ }
+
+ .add-task-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .input-text-field {
+    flex: 0.75;
+    height: 30px;
+    background-color: blanchedalmond;
+  }
+
+  .input-text-field:hover{
+    background-color: rgb(213, 177, 123);
+  }
+
+  .btn-add-task{
+    width: 5rem;
+    background-color: lightblue;
+  }
+
+  .btn-add-task:hover{
+    background-color: rgb(95, 164, 186);
+    cursor: pointer;
+  }
