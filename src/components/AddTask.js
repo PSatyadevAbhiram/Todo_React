@@ -5,7 +5,8 @@ function AddTask(props){
   const saveNewTask = (newTask) => {
     const newTaskData = {
       ...newTask,
-      id : Math.random().toString()
+      id : Math.random().toString(),
+      isCompleted : false
     }
     props.onTaskAddedHandler(newTaskData);
   }

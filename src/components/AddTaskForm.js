@@ -12,8 +12,8 @@ function AddTaskForm(props) {
   const onSubmitHandler = (event) => {
     event.preventDefault();
     const newTaskData = {
-      task : newTask,
-      date : new Date()
+      title : newTask,
+      isCompleted : false
     }
     setNewTask('');
     props.onSaveTaskHandler(newTaskData);
