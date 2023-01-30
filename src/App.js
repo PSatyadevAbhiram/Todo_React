@@ -16,12 +16,14 @@ function App() {
   };
 
   const removeTaskFromList = (id) => {
-    var index = tasks.findIndex(function(o) {
-      return o.id = id
-    })
-    if(index !== -1){
-      tasks.splice(index,1)
+    var toRemoveInd = 0;
+    for(var itr in tasks){
+      if(tasks[itr].id === id){
+        break;
+      }
+      toRemoveInd++;
     }
+    tasks.splice(toRemoveInd, 1);
     updated_tasks = tasks
     deleteTasks(() => {
       return [updated_tasks]
