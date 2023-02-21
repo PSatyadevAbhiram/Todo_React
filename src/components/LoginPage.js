@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useRef } from "react";
 
 const emailReducer = (state, action) => {
   if(action.type === "TOGGLE_FORM"){
@@ -14,13 +14,14 @@ const emailReducer = (state, action) => {
 }
 
 const Login = (props) => {
+  let userObject = {};
+  const usernameInputRef = useRef();
+  const emailInputRef = useRef();
+  const passwordInputRef = useRef();
+ 
   const [isLogin, setIsLogin] = useState(true);
-  // const [email, setEmail] = useState('');
-  // const [emailIsValid, setEmailIsValid] = useState();
   const [username, setUsername] = useState("");
-  // const [unameValid, setUnameValid] = useState();
   const [password, setPassword] = useState("");
-  // const [passValid, setpassValid] = useState();
   const [isFormValid, setIsFormValid] = useState("");
 
 
@@ -54,8 +55,35 @@ const Login = (props) => {
     setPassword(event.target.value);
   };
 
+  async function addUserToFirebase(userObject){
+    try{
+      const response = await fetch('https://todo-app-74b83-default-rtdb.firebaseio.com/users.json', {
+        method: 'POST',
+        body: JSON.stringify(userObject),
+        headers:{
+          'Content-type' : 'application/json'
+        }
+      });
+      const data = await response.json;
+      console.log(data);
+    }
+    catch (err){
+      console.log(err);
+    }
+  }
+
   const submitHandler = (event) => {
     event.preventDefault();
+    let enteredUsername, enteredPassword, enteredEmail
+    enteredUsername = usernameInputRef.current.value;
+    enteredPassword = passwordInputRef.current.value;
+    if(!isLogin){enteredEmail = emailInputRef.current.value};
+    userObject = {
+      uname: enteredUsername,
+      pass: enteredPassword,
+      email: enteredEmail
+    }
+    if(!isLogin){addUserToFirebase(userObject);}
     //props.onSignUp(emailState.value, username, password) When backend is incorporated
     props.onLogin(username, password);
   };
@@ -77,6 +105,7 @@ const Login = (props) => {
           type="email"
           placeholder="Email"
           value={emailState.value}
+          ref={emailInputRef}
           onChange = {emailChangeHandler}
           onBlur = {validateEmailHandler}>
         </input>
@@ -85,11 +114,13 @@ const Login = (props) => {
           type="text"
           value={username}
           onChange={usernameChangeEventHandler}
+          ref={usernameInputRef}
         ></input>
         <input
           type="text"
           value={password}
           onChange={passwordChangeHandler}
+          ref={passwordInputRef}
         ></input>
         <button type="submit" disabled={!isFormValid}>
           Login
